@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  description: "My application"
+  version: "1.0.0"
+  title: "My demo app"
+basePath: "/v1"
+tags:
+- name: "demo"
+  description: "Everything about the demo"
+schemes:
+- "http"
+paths:
+  /hello:
+    get:
+      tags:
+      - "demo"
+      summary: "Returns a hello world message"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              message: 
+                type: "string"
+       x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:070912926965:function:TestFunction/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
+  /excuse:
+    get:
+      tags:
+      - "demo"
+      summary: "Returns an excuse message"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        500:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              error: 
+                type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+        uri: "arn:aws:apigateway:eu-west-3:lambda:path/2015-03-31/functions/arn:aws:lambda:eu-west-3:070912926965:function:TestFunction/invocations"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws_proxy"
